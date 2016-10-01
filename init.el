@@ -1,7 +1,3 @@
-;; Don't show menu bar
-(menu-bar-mode -1)
-;; Don't show tool bar
-(tool-bar-mode 0)
 ;; Don't show scroll bar
 (toggle-scroll-bar -1)
 ;; Don't load the startup screen
@@ -9,9 +5,7 @@
 (setq inhibit-splash-screen t)
 ;; Highlight matching paren
 (show-paren-mode 1)
-;; Highlight current line
-(global-hl-line-mode t)
-;; Function name at point in mode line
+;; function name at point in mode line
 (which-function-mode t)
 ;; Highlight selection between point and mark
 (transient-mark-mode t)
@@ -27,6 +21,8 @@
 (line-number-mode 1)
 ;; "yes/no" === "y/n"
 (fset 'yes-or-no-p 'y-or-n-p)
+;; Hide toolbar (OSX)
+(menu-bar-showhide-tool-bar-menu-customize-disable)
 
 ;; Compile When Init.el Modified
 (defun autocompile nil
@@ -75,7 +71,7 @@
 (use-package undo-tree :ensure undo-tree)
 (use-package highlight-parentheses :ensure highlight-parentheses)
 (use-package lispy :ensure lispy)
-(use-package solarized-theme :ensure solarized-theme)
+(use-package sublime-themes :ensure sublime-themes)
 (use-package js2-mode :ensure js2-mode)
 (use-package js2-refactor :ensure js2-refactor)
 (use-package expand-region :ensure expand-region)
@@ -87,19 +83,22 @@
 (use-package clj-refactor :ensure clj-refactor)
 (use-package lua-mode :ensure lua-mode)
 (use-package scss-mode :ensure scss-mode)
-;; (use-package pdf-tools :ensure pdf-tools)
-(use-package rust-mode :ensure rust-mode)
-(use-package cargo :ensure cargo)
 (use-package flycheck :ensure flycheck :init (global-flycheck-mode))
-(use-package flycheck-rust :ensure flycheck-rust)
 
 ;; Theme Config
 (custom-set-variables
- '(custom-enabled-themes (quote (solarized-dark)))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (granger)))
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
-(custom-set-faces)
+    ("72a81c54c97b9e5efcc3ea214382615649ebb539cb4f2fe3a46cd12af72c7607" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(package-selected-packages
+   (quote
+    (pdf-tools web-mode use-package undo-tree sublime-themes solarized-theme scss-mode lua-mode lispy js2-refactor highlight-parentheses helm-projectile haskell-mode flycheck-rust expand-region color-theme clj-refactor cargo auto-complete)))
+ '(tool-bar-mode nil))
 
 ;; PATH Variables
 (let ((path (shell-command-to-string ". ~/.zshrc; echo -n $PATH")))
@@ -117,12 +116,8 @@
 (add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
 
 ;; SuperCollider
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/SuperCollider")
+(add-to-list 'load-path "~/Code/SuperCollider/editors/scel/el")
 (require 'sclang)
-
-;; Tidal
-;; (add-to-list 'load-path "~/tidal/emacs")
-;; (require 'tidal)
 
 ;; Js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
@@ -224,23 +219,6 @@
   ;; This choice of keybinding leaves cider-macroexpand-1 unbound
   (cljr-add-keybindings-with-prefix "C-c C-m"))
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
-
-;; SCSS-mode
-(autoload 'scss-mode "scss-mode")
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
-
-;; Pdf-tools
-;; (pdf-tools-install)
-;; (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
-;; (add-hook 'pdf-view-mode-hook (lambda () (pdf-view-midnight-minor-mode)))
-
-;; Rust
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-
-;; Auto-complete
-;; (ac-config-default)
 
 ;; Recompile
 ;; (byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
