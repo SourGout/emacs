@@ -119,6 +119,11 @@
 (add-to-list 'load-path "~/Code/SuperCollider/editors/scel/el")
 (require 'sclang)
 
+;; Tidal
+(setq load-path (cons "~/tidal/" load-path))
+(setq tidal-interpreter "/usr/local/bin/ghci")
+(require 'tidal)
+
 ;; Js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
